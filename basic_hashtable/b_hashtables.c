@@ -104,6 +104,8 @@ void hash_table_remove(BasicHashTable *ht, char *key)
   if (ht->storage[key_index] != NULL)
   {
     // free key value pair
+    free(ht->storage[key_index]->value);
+    free(ht->storage[key_index]->key);
     free(ht->storage[key_index]);
     // set bucket to null
     ht->storage[key_index] = NULL;
@@ -118,7 +120,14 @@ void hash_table_remove(BasicHashTable *ht, char *key)
 char *hash_table_retrieve(BasicHashTable *ht, char *key)
 {
   unsigned int key_index = hash(key, ht->capacity);
-  return ht->storage[key_index]->value;
+  if (ht->storage[key_index] != NULL) 
+  {
+    return ht->storage[key_index]->value;
+  }
+  else 
+  {
+    return NULL;
+  }
 }
 
 /****
