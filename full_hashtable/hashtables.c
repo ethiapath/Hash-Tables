@@ -74,6 +74,8 @@ unsigned int hash(char *str, int max)
 HashTable *create_hash_table(int capacity)
 {
   HashTable *ht;
+  ht->capacity = capacity;
+  ht->storage = calloc(capacity, sizeof(LinkedPair*));
 
   return ht;
 }
@@ -89,6 +91,23 @@ HashTable *create_hash_table(int capacity)
  */
 void hash_table_insert(HashTable *ht, char *key, char *value)
 {
+  unsigned int key_index = hash(key, strlen(key));
+  if (ht->storage[key_index] == NULL)
+  {
+    ht->storage[key_index] = create_pair(key, value);
+  }
+  else
+  {
+    LinkedPair * last_link = ht->storage[key_index];
+    // walk down list
+    while(ht->storage[key_index]->next != NULL)
+    {
+      last_link = ht->storage[key_index]->next;
+    }
+    // add new link to end
+    last_link->next = create_pair(key, value);
+  }
+  
 
 }
 
