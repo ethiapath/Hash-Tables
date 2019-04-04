@@ -91,7 +91,8 @@ HashTable *create_hash_table(int capacity)
  */
 void hash_table_insert(HashTable *ht, char *key, char *value)
 {
-  unsigned int key_index = hash(key, strlen(key));
+  unsigned int key_index = hash(key, ht->capacity);
+  printf("inserting key: %s, value: %s \n", key, value);
   if (ht->storage[key_index] == NULL)
   {
     ht->storage[key_index] = create_pair(key, value);
@@ -107,8 +108,6 @@ void hash_table_insert(HashTable *ht, char *key, char *value)
     // add new link to end
     last_link->next = create_pair(key, value);
   }
-  
-
 }
 
 /*
@@ -121,7 +120,7 @@ void hash_table_insert(HashTable *ht, char *key, char *value)
  */
 void hash_table_remove(HashTable *ht, char *key)
 {
-  unsigned int key_index = hash(key, strlen(key));
+  unsigned int key_index = hash(key, ht->capacity);
   LinkedPair * pair = ht->storage[key_index];
 
 }
@@ -136,7 +135,7 @@ void hash_table_remove(HashTable *ht, char *key)
  */
 char *hash_table_retrieve(HashTable *ht, char *key)
 {
-  unsigned int key_index = hash(key, strlen(key));
+  unsigned int key_index = hash(key, ht->capacity);
   LinkedPair * pair = ht->storage[key_index];
   while(pair != NULL)
   {
